@@ -56,10 +56,10 @@ date,channel,visitors,sessions,conversions,revenue
 
 
 ## 🔮 Future Improvements
-*Campign-level ROI & ROAS
-*Anomaly detection
-*Cohort analysis
-*Segmentation by campaign
+- Campign-level ROI & ROAS
+- Anomaly detection
+- Cohort analysis
+- Segmentation by campaign
 
 ## 👨‍💻 Author
 
