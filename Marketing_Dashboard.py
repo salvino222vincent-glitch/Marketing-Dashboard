@@ -79,7 +79,35 @@ def generate_sample_data(start_date: str = None, days: int = 180, seed: int = 42
 # ---------------------------
 # Load data
 # ---------------------------
-df = generate_sample_data(days=240)
+# ---------------------------
+# Load data (CSV upload or sample generator)
+# ---------------------------
+st.sidebar.header("Data Source")
+use_sample = st.sidebar.radio("Choose data source:", ["Sample Data", "Upload CSV"])
+
+if use_sample == "Sample Data":
+    df = generate_sample_data(days=240)
+else:
+    uploaded_file = st.sidebar.file_uploader("Upload CSV", type=["csv"])
+    if uploaded_file is not None:
+        try:
+            df = pd.read_csv(uploaded_file)
+
+            # Ensure columns exist
+            expected_cols = {"date", "channel", "visitors", "sessions", "conversions", "revenue"}
+            if not expected_cols.issubset(set(df.columns)):
+                st.error(f"CSV must contain the following columns: {expected_cols}")
+                st.stop()
+
+            # convert date column
+            df["date"] = pd.to_datetime(df["date"])
+        except Exception as e:
+            st.error(f"Error reading CSV: {e}")
+            st.stop()
+    else:
+        st.warning("Please upload a CSV file to proceed.")
+        st.stop()
+
 
 # ---------------------------
 # Sidebar controls
